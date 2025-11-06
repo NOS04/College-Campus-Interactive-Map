@@ -1,0 +1,1366 @@
+/* ===================================
+   GLOBAL STYLES AND RESET
+   =================================== */
+
+/* Universal box-sizing and reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+/* Body styling with modern font stack and gradient background */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.5;
+    color: #353355;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* ===================================
+   NAVIGATION STYLES
+   =================================== */
+
+/* Fixed navigation bar with backdrop blur effect */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(203, 213, 225, 0.6);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation container with max-width and centering */
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+}
+
+/* Logo section styling */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Logo icon with gradient background */
+.logo-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* Logo text styling */
+.logo-text h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1e293b;
+}
+
+.logo-text p {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: -0.25rem;
+}
+
+/* Navigation menu container */
+.nav-menu {
+    display: flex;
+    gap: 0.25rem;
+}
+
+/* Navigation button styling */
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Navigation button hover effects */
+.nav-btn:hover {
+    background: rgba(148, 163, 184, 0.1);
+    color: #1e293b;
+}
+
+/* Active navigation button styling */
+.nav-btn.active {
+    background: #2563eb;
+    color: rgb(255, 255, 255);
+    box-shadow: 0 4px 6px rgba(37, 100, 235, 0.304);
+}
+
+/* Navigation icon styling */
+.nav-icon {
+    font-size: 1rem;
+}
+
+/* ===================================
+   MAIN CONTENT LAYOUT
+   =================================== */
+
+/* Main content area with top padding for fixed navbar */
+.main-content {
+    padding-top: 5rem;
+    min-height: 100vh;
+}
+
+/* Section container styling */
+.section {
+    display: none;
+    padding: 2rem 0;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Active section display */
+.section.active {
+    display: block;
+}
+
+/* Fade-in animation for sections */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container for content with max-width and centering */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Section header styling */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    font-size: 1.125rem;
+    color: #64748b;
+}
+
+/* ===================================
+   SEARCH AND FILTER CONTROLS
+   =================================== */
+
+/* Controls container for search and filters */
+.map-controls, .notices-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+}
+
+/* Search input container */
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Search input styling */
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: rgb(255, 255, 255);
+}
+
+/* Search input focus effects */
+.search-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Search icon positioning */
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 1rem;
+}
+
+/* Filter buttons container */
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+/* Filter button styling */
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background: white;
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Filter button hover effects */
+.filter-btn:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+}
+
+/* Active filter button styling */
+.filter-btn.active {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+/* Special styling for scroll-to-events button */
+.scroll-to-events {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    border-color: #f59e0b;
+}
+
+.scroll-to-events:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    border-color: #d97706;
+}
+
+/* ===================================
+   MAP SECTION STYLES
+   =================================== */
+
+/* View toggle container */
+.view-toggle {
+    margin-top: 1rem;
+}
+
+/* Toggle button styling */
+/* Map container styling */
+.map-container {
+    position: relative;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Map view containers */
+.campus-map-svg {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: linear-gradient(135deg, #dbeafe 0%, #dcfce7 100%);
+    overflow: hidden;
+}
+
+/* SVG styling */
+#campus-svg {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+#campus-svg:active {
+    cursor: grabbing;
+}
+
+/* Building group hover effects */
+.building-group {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.building-group:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Building group active state */
+.building-group.highlighted {
+    animation: pulse 1.5s infinite;
+}
+
+/* Pulse animation for highlighted buildings */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Map legend styling */
+.map-legend {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.map-legend h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+}
+
+/* Legend item styling */
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* Legend color indicators */
+.legend-color {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+}
+
+.classroom-color { background: #0891B2; }
+.lab-color { background: #7c3aed; }
+.residence-color { background: #2E8B57; }
+.hostel-color { background: #FFD700; }
+.workshop-color { background: #1bc308; }
+
+/* ===================================
+   NOTICE BOARD STYLES
+   =================================== */
+
+/* Notices grid layout */
+.notices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Notice card styling */
+.notice-card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-left: 4px solid #2563eb;
+}
+
+/* Notice card hover effects */
+.notice-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Notice card category styling */
+.notice-card.pinned {
+    border-left-color: #f59e0b;
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+}
+
+.notice-card.exam {
+    border-left-color: #dc2626;
+}
+
+.notice-card.event {
+    border-left-color: #7c3aed;
+}
+
+.notice-card.sports {
+    border-left-color: #10b981;
+}
+
+.notice-card.general {
+    border-left-color: #64748b;
+}
+
+/* Notice header styling */
+.notice-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+/* Notice category badge */
+.notice-category {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #f1f5f9;
+    color: #475569;
+}
+
+/* Category-specific badge colors */
+.notice-category.exam { background: #fecaca; color: #dc2626; }
+.notice-category.event { background: #ede9fe; color: #7c3aed; }
+.notice-category.sports { background: #d1fae5; color: #10b981; }
+.notice-category.general { background: #f1f5f9; color: #64748b; }
+
+/* Notice pin button */
+.notice-pin {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+}
+
+.notice-pin:hover,
+.notice-pin.pinned {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Notice body styling */
+.notice-body {
+    padding: 0 1rem 1rem;
+}
+
+.notice-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.notice-description {
+    color: #64748b;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* Notice footer styling */
+.notice-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #94a3b8;
+}
+
+/* ===================================
+   UPCOMING EVENTS STYLES
+   =================================== */
+
+/* Upcoming events section */
+.upcoming-events-section {
+    margin-top: 4rem;
+}
+
+/* Section divider styling */
+.section-divider {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+    border-top: 2px solid #e2e8f0;
+}
+
+.section-divider h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.section-divider p {
+    font-size: 1.125rem;
+    color: #64748b;
+}
+
+/* Events grid layout */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+/* Event card styling */
+.event-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-left: 5px solid #2563eb;
+    position: relative;
+}
+
+/* Event card hover effects */
+.event-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Event card category styling */
+.event-card.featured {
+    border-left-color: #f59e0b;
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+}
+
+.event-card.cultural {
+    border-left-color: #7c3aed;
+}
+
+.event-card.sports {
+    border-left-color: #10b981;
+}
+
+.event-card.academic {
+    border-left-color: #dc2626;
+}
+
+/* Event header styling */
+.event-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Event date styling */
+.event-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-bottom: 0.75rem;
+}
+
+.event-date-badge {
+    background: #2563eb;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+/* Event title and subtitle */
+.event-title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.event-subtitle {
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Event body styling */
+.event-body {
+    padding: 1.5rem;
+}
+
+.event-description {
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Event details grid */
+.event-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Event detail item */
+.event-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.event-detail-icon {
+    font-size: 1rem;
+    color: #2563eb;
+}
+
+.event-detail-text {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+/* Event tags styling */
+.event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.event-tag {
+    padding: 0.25rem 0.75rem;
+    background: #e2e8f0;
+    color: #475569;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Event tag category colors */
+.event-tag.featured { background: #fef3c7; color: #92400e; }
+.event-tag.cultural { background: #ede9fe; color: #6b21a8; }
+.event-tag.sports { background: #d1fae5; color: #065f46; }
+.event-tag.academic { background: #fecaca; color: #991b1b; }
+
+/* Event footer styling */
+.event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.event-organizer {
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+/* Event status styling */
+.event-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.event-status.open {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.event-status.limited {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.event-status.closed {
+    background: #fecaca;
+    color: #991b1b;
+}
+
+/* Countdown timer styling */
+.countdown-timer {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(37, 99, 235, 0.9);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+}
+
+/* ===================================
+   GALLERY STYLES
+   =================================== */
+
+/* Gallery grid layout */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Gallery item styling */
+.gallery-item {
+    position: relative;
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+}
+
+/* Gallery item hover effects */
+.gallery-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Gallery image styling */
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Gallery overlay styling */
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 2rem 1rem 1rem;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.gallery-overlay p {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+/* Preview button styling */
+.preview-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.preview-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===================================
+   MODAL STYLES (Image Preview)
+   =================================== */
+
+/* Modal overlay */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 3000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* Modal content container */
+.modal-content {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 100%;
+    position: relative;
+    animation: slideUp 0.3s ease;
+    overflow: hidden;
+}
+
+/* Modal header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* Modal close button */
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: all 0.2s ease;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+}
+
+.modal-close:hover {
+    color: #1e293b;
+    background: #e2e8f0;
+}
+
+/* Modal body */
+.modal-body {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+/* Image container */
+.image-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background: #f8fafc;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Preview image styling */
+#preview-image {
+    max-width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    border-radius: 0.5rem;
+}
+
+/* Image controls */
+.image-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Control button styling */
+.control-btn {
+    padding: 0.5rem 1rem;
+    background: #f1f5f9;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+}
+
+.control-btn:hover {
+    background: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+.control-btn:active {
+    background: #cbd5e1;
+}
+
+/* Image information */
+.image-info {
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+}
+
+#image-description {
+    color: #64748b;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* ===================================
+   ABOUT SECTION STYLES
+   =================================== */
+
+/* About content container */
+.about-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* About cards grid */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+/* About card styling */
+.about-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Card icon styling */
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.about-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.about-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* Statistics section */
+.stats-section {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.stats-section h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2rem;
+}
+
+/* Statistics grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2563eb;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Contact section */
+.contact-section {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contact-section h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Contact grid */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+/* Contact item styling */
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.contact-item:hover {
+    background: #f8fafc;
+}
+
+.contact-icon {
+    font-size: 1.5rem;
+    margin-top: 0.25rem;
+}
+
+.contact-item h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+}
+
+.contact-item p {
+    color: #64748b;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+/* ===================================
+   POPUP STYLES (Building Info)
+   =================================== */
+
+/* Popup overlay */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+.popup.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* Popup content */
+.popup-content {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.3s ease;
+    margin: 1rem;
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Popup close button */
+.popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: all 0.2s ease;
+}
+
+.popup-close:hover {
+    color: #1e293b;
+    transform: scale(1.1);
+}
+
+/* Popup header */
+.popup-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 2rem 1rem;
+}
+
+.popup-icon {
+    font-size: 2rem;
+}
+
+.popup-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* Popup body */
+.popup-body {
+    padding: 0 2rem 2rem;
+}
+
+.popup-description {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+/* Popup info items */
+.popup-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+}
+
+.info-icon {
+    font-size: 1.25rem;
+}
+
+.info-text {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+/* Mobile and tablet responsive styles */
+@media (max-width: 768px) {
+    /* Navigation adjustments */
+    .nav-container {
+        padding: 0 0.5rem;
+    }
+    
+    .nav-menu {
+        gap: 0.125rem;
+    }
+    
+    .nav-btn {
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+    }
+    
+    .nav-text {
+        display: none;
+    }
+    
+    .nav-icon {
+        font-size: 1.25rem;
+    }
+    
+    .logo-text {
+        display: none;
+    }
+    
+    /* Section header adjustments */
+    .section-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .section-header p {
+        font-size: 1rem;
+    }
+    
+    /* Controls adjustments */
+    .map-controls,
+    .notices-controls {
+        padding: 0 0.5rem;
+    }
+    
+    .filter-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+    }
+    
+    /* Map adjustments */
+    .campus-map-svg {
+        height: 400px;
+    }
+    .map-legend {
+        padding: 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    /* Grid adjustments */
+    .notices-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .event-details {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Modal adjustments */
+    .modal-content {
+        margin: 1rem;
+        max-width: calc(100vw - 2rem);
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .image-container {
+        min-height: 200px;
+    }
+    
+    #preview-image {
+        max-height: 40vh;
+    }
+    
+    /* Popup adjustments */
+    .popup-content {
+        margin: 1rem;
+        max-width: calc(100vw - 2rem);
+    }
+    
+    .popup-header {
+        padding: 1.5rem 1.5rem 0.75rem;
+    }
+    
+    .popup-body {
+        padding: 0 1.5rem 1.5rem;
+    }
+}
+
+/* ===================================
+   UTILITY CLASSES
+   =================================== */
+
+/* Smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Loading state */
+.loaded {
+    opacity: 1;
+}
+
+/* Animation classes for intersection observer */
+.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
