@@ -271,7 +271,7 @@ const sampleUpcomingEvents = [
         venue: 'Seminar Hall and Smart Class',
         organizer: 'Placement Cell',
         currentParticipants: '200+',
-        maxParticipants: '5 Branches' ,
+        maxParticipants: '5 Branches',
         registrationStatus: 'open',
         tags: ['Jobs', 'Internships', 'Networking', 'Workshops'],
         featured: true
@@ -317,27 +317,27 @@ const sampleUpcomingEvents = [
    =================================== */
 
 // Initialize the application when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 Initializing EduHub Application...');
-    
+
     // Initialize all components
     initializeNavigation();
     initializeMap();
     initializeNotices();
     initializeGallery();
     initializeImagePreview();
-    
+
     // Show default section
     showSection('map');
-    
+
     // Load sample data
     notices = [...sampleNotices];
     upcomingEvents = [...sampleUpcomingEvents];
-    
+
     // Render initial content
     renderNotices();
     renderUpcomingEvents();
-    
+
     console.log('✅ EduHub Application initialized successfully!');
 });
 
@@ -348,21 +348,21 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize navigation system
 function initializeNavigation() {
     console.log('📱 Initializing navigation...');
-    
+
     const navButtons = document.querySelectorAll('.nav-btn');
-    
+
     // Add click event listeners to navigation buttons
     navButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const section = this.getAttribute('data-section');
             showSection(section);
-            
+
             // Update active navigation button
             navButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
         });
     });
-    
+
     // Initialize smooth scroll for upcoming events button
     initializeSmoothScroll();
 }
@@ -370,19 +370,19 @@ function initializeNavigation() {
 // Initialize smooth scrolling functionality
 function initializeSmoothScroll() {
     const scrollButtons = document.querySelectorAll('.scroll-to-events');
-    
+
     scrollButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             // First, make sure we're on the notices section
             showSection('notices');
-            
+
             // Update navigation
             const navButtons = document.querySelectorAll('.nav-btn');
             navButtons.forEach(btn => btn.classList.remove('active'));
             document.querySelector('[data-section="notices"]').classList.add('active');
-            
+
             // Wait for section to load, then scroll to upcoming events
             setTimeout(() => {
                 const targetElement = document.getElementById('upcoming-events');
@@ -400,12 +400,12 @@ function initializeSmoothScroll() {
 // Show specific section and hide others
 function showSection(sectionName) {
     console.log(`🔄 Switching to section: ${sectionName}`);
-    
+
     // Hide all sections
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
     });
-    
+
     // Show selected section
     const targetSection = document.getElementById(`${sectionName}-section`);
     if (targetSection) {
@@ -421,10 +421,10 @@ function showSection(sectionName) {
 // Initialize interactive map system
 function initializeMap() {
     console.log('🗺️ Initializing interactive map...');
-    
+
     // Initialize map interactions
     initializeMapInteractions();
-    
+
     // Initialize building popup
     initializeBuildingPopup();
 }
@@ -434,45 +434,45 @@ function initializeMapInteractions() {
     const buildings = document.querySelectorAll('.building-group');
     const mapSearch = document.getElementById('map-search');
     const filterButtons = document.querySelectorAll('#map-section .filter-btn');
-    
+
     // Building click events for SVG elements
     buildings.forEach(building => {
-        building.addEventListener('click', function() {
+        building.addEventListener('click', function () {
             const buildingId = this.getAttribute('data-building');
             showBuildingInfo(buildingId);
         });
-        
+
         // Add hover effects
-        building.addEventListener('mouseenter', function() {
+        building.addEventListener('mouseenter', function () {
             this.style.transform = 'scale(1.05)';
             this.style.filter = 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))';
         });
-        
-        building.addEventListener('mouseleave', function() {
+
+        building.addEventListener('mouseleave', function () {
             if (!this.classList.contains('highlighted')) {
                 this.style.transform = 'scale(1)';
                 this.style.filter = 'none';
             }
         });
     });
-    
+
     // Map search functionality
     if (mapSearch) {
-        mapSearch.addEventListener('input', function() {
+        mapSearch.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
             filterBuildings(searchTerm);
         });
     }
-    
+
     // Filter button events
     filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const category = this.getAttribute('data-category');
-            
+
             // Update active filter button
             filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-            
+
             filterBuildingsByCategory(category);
         });
     });
@@ -481,98 +481,172 @@ function initializeMapInteractions() {
 // Filter buildings by search term
 function filterBuildings(searchTerm) {
     const buildings = document.querySelectorAll('.building-group');
-    let foundBuilding = null;
-    
+
     buildings.forEach(building => {
         const buildingId = building.getAttribute('data-building');
         const buildingName = buildingData[buildingId]?.name.toLowerCase() || '';
-        
+
         // Reset styles
         building.classList.remove('highlighted');
-        building.style.display = 'block';
         building.style.transform = 'scale(1)';
         building.style.filter = 'none';
-        
-        if (searchTerm && buildingName.includes(searchTerm)) {
-            building.classList.add('highlighted');
-            foundBuilding = building;
-        } else if (searchTerm && !buildingName.includes(searchTerm)) {
-            building.style.display = 'none';
+
+        if (!searchTerm) {
+            // If search is empty, un-dim all buildings
+            building.classList.remove('building-dimmed');
+            return; // Go to the next building
+        }
+
+        if (buildingName.includes(searchTerm)) {
+            // This building MATCHES the search
+            building.classList.add('highlighted'); // Keep the pulse highlight
+            building.classList.remove('building-dimmed'); // Ensure it's not dimmed
+        } else {
+            // This building does NOT match the search
+            building.classList.remove('highlighted'); // Remove pulse
+            building.classList.add('building-dimmed'); // Dim it
         }
     });
-    
-    // Scroll to found building if search is specific enough
-    if (foundBuilding && searchTerm.length > 2) {
-        foundBuilding.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+
+    // De-activate category filters
+    const filterButtons = document.querySelectorAll('#map-section .filter-btn');
+    filterButtons.forEach(btn => btn.classList.remove('active'));
+    document.querySelector('#map-section .filter-btn[data-category="all"]').classList.add('active');
 }
+// function filterBuildings(searchTerm) {
+//     const buildings = document.querySelectorAll('.building-group');
+//     let foundBuilding = null;
+
+//     buildings.forEach(building => {
+//         const buildingId = building.getAttribute('data-building');
+//         const buildingName = buildingData[buildingId]?.name.toLowerCase() || '';
+
+//         // Reset styles
+//         building.classList.remove('highlighted');
+//         building.style.display = 'block';
+//         building.style.transform = 'scale(1)';
+//         building.style.filter = 'none';
+
+//         if (searchTerm && buildingName.includes(searchTerm)) {
+//             building.classList.add('highlighted');
+//             foundBuilding = building;
+//         } else if (searchTerm && !buildingName.includes(searchTerm)) {
+//             building.style.display = 'none';
+//         }
+//     });
+
+//     // Scroll to found building if search is specific enough
+//     if (foundBuilding && searchTerm.length > 2) {
+//         foundBuilding.scrollIntoView({ behavior: 'smooth', block: 'center' });
+//     }
+// }
 
 // Filter buildings by category
 function filterBuildingsByCategory(category) {
     const buildings = document.querySelectorAll('.building-group');
-    
+
     buildings.forEach(building => {
         const buildingId = building.getAttribute('data-building');
         const buildingInfo = buildingData[buildingId];
-        
-        if (!buildingInfo) {
-            building.style.display = 'none';
-            return;
-        }
-        
-        const buildingCategory = buildingInfo.category;
-        
-        // Reset styles
+
+        // Reset highlights from search
         building.classList.remove('highlighted');
         building.style.transform = 'scale(1)';
         building.style.filter = 'none';
-        
+
         if (category === 'all') {
-            building.style.display = 'block';
-        } else if (category === 'lab' && (buildingCategory === 'lab' || buildingId === 'computer-lab' || buildingId === 'coe-lab')) {
-            building.style.display = 'block';
-        } else if (category === 'classroom' && (buildingCategory === 'classroom' || buildingId === 'computer-lab')) {
-            building.style.display = 'block';
-        } else if (buildingCategory === category) {
-            building.style.display = buildingCategory === category ? 'block' : 'none';
+            // If "All" is clicked, un-dim every building
+            building.classList.remove('building-dimmed');
+        } else if (buildingInfo) {
+            // Check if the building's category matches
+            const hasCategory = Array.isArray(buildingInfo.category)
+                ? buildingInfo.category.includes(category)
+                : buildingInfo.category === category; // Fallback for single categories
+
+            if (hasCategory) {
+                // This building MATCHES, so un-dim it
+                building.classList.remove('building-dimmed');
+            } else {
+                // This building does NOT match, so dim it
+                building.classList.add('building-dimmed');
+            }
         } else {
-            building.style.display = 'none';
+            // If building has no info, dim it
+            building.classList.add('building-dimmed');
         }
     });
-    
+
     // Clear search
     const mapSearch = document.getElementById('map-search');
     if (mapSearch) {
         mapSearch.value = '';
     }
 }
+// function filterBuildingsByCategory(category) {
+//     const buildings = document.querySelectorAll('.building-group');
+
+//     buildings.forEach(building => {
+//         const buildingId = building.getAttribute('data-building');
+//         const buildingInfo = buildingData[buildingId];
+
+//         if (!buildingInfo) {
+//             building.style.display = 'none';
+//             return;
+//         }
+
+//         const buildingCategory = buildingInfo.category;
+
+//         // Reset styles
+//         building.classList.remove('highlighted');
+//         building.style.transform = 'scale(1)';
+//         building.style.filter = 'none';
+
+//         if (category === 'all') {
+//             building.style.display = 'block';
+//         } else if (category === 'lab' && (buildingCategory === 'lab' || buildingId === 'computer-lab' || buildingId === 'coe-lab')) {
+//             building.style.display = 'block';
+//         } else if (category === 'classroom' && (buildingCategory === 'classroom' || buildingId === 'computer-lab')) {
+//             building.style.display = 'block';
+//         } else if (buildingCategory === category) {
+//             building.style.display = buildingCategory === category ? 'block' : 'none';
+//         } else {
+//             building.style.display = 'none';
+//         }
+//     });
+
+//     // Clear search
+//     const mapSearch = document.getElementById('map-search');
+//     if (mapSearch) {
+//         mapSearch.value = '';
+//     }
+// }
 
 // Show building information popup
 function showBuildingInfo(buildingId) {
     console.log(`🏢 Showing info for building: ${buildingId}`);
-    
+
     const building = buildingData[buildingId];
     if (!building) return;
-    
+
     const popup = document.getElementById('building-popup');
     const popupIcon = popup.querySelector('.popup-icon');
     const popupTitle = popup.querySelector('.popup-title');
     const popupDescription = popup.querySelector('.popup-description');
     const infoItems = popup.querySelectorAll('.info-item .info-text');
-    
+
     // Update popup content
     popupIcon.textContent = building.icon;
     popupTitle.textContent = building.name;
     popupDescription.textContent = building.description;
     infoItems[0].textContent = building.hours;
-    
+
     if (building.capacity) {
         infoItems[1].textContent = building.capacity;
         popup.querySelector('.capacity-info').style.display = 'flex';
     } else {
         popup.querySelector('.capacity-info').style.display = 'none';
     }
-    
+
     // Show popup
     popup.classList.add('show');
 }
@@ -581,21 +655,21 @@ function showBuildingInfo(buildingId) {
 function initializeBuildingPopup() {
     const popup = document.getElementById('building-popup');
     const closeButton = popup.querySelector('.popup-close');
-    
+
     // Close button event
-    closeButton.addEventListener('click', function() {
+    closeButton.addEventListener('click', function () {
         popup.classList.remove('show');
     });
-    
+
     // Click outside to close
-    popup.addEventListener('click', function(e) {
+    popup.addEventListener('click', function (e) {
         if (e.target === popup) {
             popup.classList.remove('show');
         }
     });
-    
+
     // Escape key to close
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && popup.classList.contains('show')) {
             popup.classList.remove('show');
         }
@@ -609,27 +683,27 @@ function initializeBuildingPopup() {
 // Initialize notice board system
 function initializeNotices() {
     console.log('📢 Initializing notice board...');
-    
+
     const noticesSearch = document.getElementById('notices-search');
     const filterButtons = document.querySelectorAll('#notices-section .filter-btn:not(.scroll-to-events)');
-    
+
     // Search functionality
     if (noticesSearch) {
-        noticesSearch.addEventListener('input', function() {
+        noticesSearch.addEventListener('input', function () {
             const searchTerm = this.value.toLowerCase();
             filterNotices(searchTerm);
         });
     }
-    
+
     // Filter button events
     filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const category = this.getAttribute('data-category');
-            
+
             // Update active filter button (excluding scroll button)
             filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-            
+
             filterNoticesByCategory(category);
         });
     });
@@ -638,19 +712,19 @@ function initializeNotices() {
 // Render notices to the DOM
 function renderNotices() {
     console.log('📝 Rendering notices...');
-    
+
     const container = document.getElementById('notices-container');
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
+
     // Sort notices: pinned first, then by date (newest first)
     const sortedNotices = [...notices].sort((a, b) => {
         if (pinnedNotices.has(a.id) && !pinnedNotices.has(b.id)) return -1;
         if (!pinnedNotices.has(a.id) && pinnedNotices.has(b.id)) return 1;
         return new Date(b.date) - new Date(a.date);
     });
-    
+
     // Create notice cards
     sortedNotices.forEach(notice => {
         const noticeCard = createNoticeCard(notice);
@@ -662,17 +736,17 @@ function renderNotices() {
 function createNoticeCard(notice) {
     const card = document.createElement('div');
     card.className = `notice-card ${notice.category}`;
-    
+
     if (pinnedNotices.has(notice.id)) {
         card.classList.add('pinned');
     }
-    
+
     const formattedDate = new Date(notice.date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
     });
-    
+
     card.innerHTML = `
         <div class="notice-header">
             <span class="notice-category ${notice.category}">${notice.category}</span>
@@ -690,14 +764,14 @@ function createNoticeCard(notice) {
             </div>
         </div>
     `;
-    
+
     return card;
 }
 
 // Toggle pin status for notices
 function togglePin(noticeId) {
     console.log(`📌 Toggling pin for notice: ${noticeId}`);
-    
+
     if (pinnedNotices.has(noticeId)) {
         pinnedNotices.delete(noticeId);
     } else {
@@ -709,11 +783,11 @@ function togglePin(noticeId) {
 // Filter notices by search term
 function filterNotices(searchTerm) {
     const noticeCards = document.querySelectorAll('.notice-card');
-    
+
     noticeCards.forEach(card => {
         const title = card.querySelector('.notice-title').textContent.toLowerCase();
         const description = card.querySelector('.notice-description').textContent.toLowerCase();
-        
+
         if (title.includes(searchTerm) || description.includes(searchTerm)) {
             card.style.display = 'block';
         } else {
@@ -725,7 +799,7 @@ function filterNotices(searchTerm) {
 // Filter notices by category
 function filterNoticesByCategory(category) {
     const noticeCards = document.querySelectorAll('.notice-card');
-    
+
     noticeCards.forEach(card => {
         if (category === 'all') {
             card.style.display = 'block';
@@ -734,7 +808,7 @@ function filterNoticesByCategory(category) {
             card.style.display = cardCategory ? 'block' : 'none';
         }
     });
-    
+
     // Clear search
     const noticesSearch = document.getElementById('notices-search');
     if (noticesSearch) {
@@ -749,19 +823,19 @@ function filterNoticesByCategory(category) {
 // Render upcoming events to the DOM
 function renderUpcomingEvents() {
     console.log('🎉 Rendering upcoming events...');
-    
+
     const container = document.getElementById('events-container');
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
+
     // Sort events: featured first, then by date (nearest first)
     const sortedEvents = [...upcomingEvents].sort((a, b) => {
         if (a.featured && !b.featured) return -1;
         if (!a.featured && b.featured) return 1;
         return new Date(a.date) - new Date(b.date);
     });
-    
+
     // Create event cards
     sortedEvents.forEach(event => {
         const eventCard = createEventCard(event);
@@ -773,30 +847,30 @@ function renderUpcomingEvents() {
 function createEventCard(event) {
     const card = document.createElement('div');
     card.className = `event-card ${event.category}`;
-    
+
     if (event.featured) {
         card.classList.add('featured');
     }
-    
+
     const eventDate = new Date(event.date);
     const endDate = new Date(event.endDate);
     const now = new Date();
     const daysUntil = Math.ceil((eventDate - now) / (1000 * 60 * 60 * 24));
-    
+
     const formattedDate = eventDate.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
     });
-    
+
     const formattedEndDate = endDate.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric'
     });
-    
-    const dateRange = event.endDate !== event.date ? 
+
+    const dateRange = event.endDate !== event.date ?
         `${formattedDate} - ${formattedEndDate}` : formattedDate;
-    
+
     card.innerHTML = `
         ${daysUntil > 0 && daysUntil <= 30 ? `<div class="countdown-timer">${daysUntil} days left</div>` : ''}
         
@@ -834,13 +908,13 @@ function createEventCard(event) {
             <div class="event-footer">
                 <span class="event-organizer">Organized by ${event.organizer}</span>
                 <span class="event-status ${event.registrationStatus}">
-                    ${event.registrationStatus === 'open' ? 'Registration Open' : 
-                      event.registrationStatus === 'limited' ? 'Limited Seats' : 'Registration Closed'}
+                    ${event.registrationStatus === 'open' ? 'Registration Open' :
+            event.registrationStatus === 'limited' ? 'Limited Seats' : 'Registration Closed'}
                 </span>
             </div>
         </div>
     `;
-    
+
     return card;
 }
 
@@ -851,30 +925,30 @@ function createEventCard(event) {
 // Initialize gallery system
 function initializeGallery() {
     console.log('📸 Initializing gallery...');
-    
+
     const galleryItems = document.querySelectorAll('.gallery-item');
-    
+
     // Add click event listeners to gallery items
     galleryItems.forEach(item => {
         const previewBtn = item.querySelector('.preview-btn');
-        
+
         if (previewBtn) {
-            previewBtn.addEventListener('click', function(e) {
+            previewBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 const imageSrc = item.getAttribute('data-image');
                 const title = item.querySelector('h3').textContent;
                 const description = item.querySelector('p').textContent;
-                
+
                 openImagePreview(imageSrc, title, description);
             });
         }
-        
+
         // Also allow clicking on the item itself
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
             const imageSrc = item.getAttribute('data-image');
             const title = item.querySelector('h3').textContent;
             const description = item.querySelector('p').textContent;
-            
+
             openImagePreview(imageSrc, title, description);
         });
     });
@@ -887,7 +961,7 @@ function initializeGallery() {
 // Initialize image preview modal system
 function initializeImagePreview() {
     console.log('🖼️ Initializing image preview...');
-    
+
     const modal = document.getElementById('image-preview-modal');
     const closeBtn = modal.querySelector('.modal-close');
     const zoomInBtn = document.getElementById('zoom-in');
@@ -895,19 +969,19 @@ function initializeImagePreview() {
     const resetZoomBtn = document.getElementById('reset-zoom');
     const fullscreenBtn = document.getElementById('fullscreen-toggle');
     const downloadBtn = document.getElementById('download-image');
-    
+
     // Close modal events
     closeBtn.addEventListener('click', closeImagePreview);
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             closeImagePreview();
         }
     });
-    
+
     // Keyboard events
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (modal.classList.contains('show')) {
-            switch(e.key) {
+            switch (e.key) {
                 case 'Escape':
                     closeImagePreview();
                     break;
@@ -924,7 +998,7 @@ function initializeImagePreview() {
             }
         }
     });
-    
+
     // Control button events
     zoomInBtn.addEventListener('click', zoomIn);
     zoomOutBtn.addEventListener('click', zoomOut);
@@ -936,23 +1010,23 @@ function initializeImagePreview() {
 // Open image preview modal
 function openImagePreview(imageSrc, title, description) {
     console.log(`🖼️ Opening image preview: ${title}`);
-    
+
     const modal = document.getElementById('image-preview-modal');
     const modalTitle = document.getElementById('modal-title');
     const previewImage = document.getElementById('preview-image');
     const imageDescription = document.getElementById('image-description');
-    
+
     // Set content
     modalTitle.textContent = title;
     previewImage.src = imageSrc;
     previewImage.alt = title;
     imageDescription.textContent = description;
-    
+
     // Reset zoom
     currentZoom = 1;
     currentImageSrc = imageSrc;
     previewImage.style.transform = 'scale(1)';
-    
+
     // Show modal
     modal.classList.add('show');
 }
@@ -961,7 +1035,7 @@ function openImagePreview(imageSrc, title, description) {
 function closeImagePreview() {
     const modal = document.getElementById('image-preview-modal');
     modal.classList.remove('show');
-    
+
     // Reset zoom
     currentZoom = 1;
     currentImageSrc = '';
@@ -991,7 +1065,7 @@ function resetZoom() {
 // Toggle fullscreen mode
 function toggleFullscreen() {
     const modal = document.getElementById('image-preview-modal');
-    
+
     if (!document.fullscreenElement) {
         modal.requestFullscreen().catch(err => {
             console.log(`Error attempting to enable fullscreen: ${err.message}`);
@@ -1004,7 +1078,7 @@ function toggleFullscreen() {
 // Download image functionality
 function downloadImage() {
     if (!currentImageSrc) return;
-    
+
     const link = document.createElement('a');
     link.href = currentImageSrc;
     link.download = 'college-image.jpg';
@@ -1058,7 +1132,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Add loading animation
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     document.body.classList.add('loaded');
     console.log('🎨 Page loaded with animations');
 });
@@ -1078,7 +1152,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const animatedElements = document.querySelectorAll('.notice-card, .gallery-item, .about-card, .event-card');
     animatedElements.forEach(el => observer.observe(el));
 });
@@ -1088,12 +1162,12 @@ document.addEventListener('DOMContentLoaded', function() {
    =================================== */
 
 // Global error handler
-window.addEventListener('error', function(e) {
+window.addEventListener('error', function (e) {
     console.error('❌ Global error:', e.error);
 });
 
 // Unhandled promise rejection handler
-window.addEventListener('unhandledrejection', function(e) {
+window.addEventListener('unhandledrejection', function (e) {
     console.error('❌ Unhandled promise rejection:', e.reason);
 });
 
